@@ -66,17 +66,4 @@ Since **direct writing** isn't supported yet, follow these steps:
 - Ability to **query tables** with DuckDB while ensuring **user permissions** via Unity Catalog.
 - **User Interface (UI)** for catalog management, lineage, and user management.
 - **Dockerized environment** for easy setup.
-
----
-
-# **Links to the example headings above**
-
-Link to the goal section: [Link Text](#goal).
-
-Link to the Why This Integration section: [Link Text](#why-this-integration).
-
-Link to the What is Unity Catalog section: [Link Text](#what-is-unity-catalog).
-
-Link to the Project Plan section: [Link Text](#project-plan).
-
-Link to the Workaround for Writing to Unity Catalog section: [Link Text
+- 
