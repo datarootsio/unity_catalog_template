@@ -1,0 +1,21 @@
+woodcorps:
+  outputs:
+    dev:
+      type: duckdb
+      catalog: unity
+      attach:
+        - path: unity
+          alias: unity
+          type: UC_CATALOG
+      extensions:
+        - name: delta
+        - name: uc_catalog
+          repository: http://nightly-extensions.duckdb.org
+      secrets:
+        - type: UC
+          token: 'not-used'
+          endpoint: 'http://127.0.0.1:8080'
+          aws_region: 'us-east-2'
+      plugins:
+        - module: unity
+  target: dev
