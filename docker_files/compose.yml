@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  dbt:
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: dockerfile.dbt
+      #Change this to your desired path to store the data
+    environment:
+      STORAGE_PATH: "/Users/mustafakurtoglu/unitycatalog/etc/data/external/data_storage"
+    volumes:
+        #Change this to your desired path to store the data
+      - /Users/mustafakurtoglu/unitycatalog/etc/data/external/data_storage:/Users/mustafakurtoglu/unitycatalog/etc/data/external/data_storage
+    networks:
+      - data-network
+
+  unity-catalog:
+    build:
+      context: .
+      dockerfile: dockerfile.uc
+    working_dir: /app/unitycatalog
+    ports:
+      - "8080:8080"
+    container_name: unity-catalog-container
+   # healthcheck:
+   #   test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+   #   interval: 10s
+   #   timeout: 5s
+   #   retries: 5
+   #   start_period: 5s
+    networks:
+      - data-network
+
+networks:
+  data-network:
+    driver: bridge

@@ -1,8 +1,8 @@
 {{ config(
-        materialized='external_table',
-        location="/Users/mustafakurtoglu/unitycatalog/etc/data/external/data_storage/Woodcorp_O2C_Case_table",
-        plugin = 'unity')
-    }}
+    materialized='external_table',
+    location=var('storage_path'),
+    plugin='unity'
+) }}
 
 with cases as (
 

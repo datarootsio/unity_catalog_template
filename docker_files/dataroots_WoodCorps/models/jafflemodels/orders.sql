@@ -1,8 +1,9 @@
 {{ config(
-        materialized='external_table',
-        location="/Users/mustafakurtoglu/unitycatalog/etc/data/external/data_storage/orders",
-        plugin = 'unity')
-    }}
+    materialized='external_table',
+    location=var('storage_path'),
+    plugin='unity'
+) }}
+
 {% set payment_methods = ['credit_card', 'coupon', 'bank_transfer', 'gift_card'] %}
 
 with orders as (

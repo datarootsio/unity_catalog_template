@@ -1,4 +1,4 @@
-
+    
 # Name your project! Project names should contain only lowercase characters
 # and underscores. A good package name should reflect your organization's
 # name or the intended use of these models
@@ -26,11 +26,12 @@ snapshot-paths: ["snapshots"]
 # directory as views. These settings can be overridden in the individual model
 # files using the `{{ config(...) }}` macro.
 
+vars:
+  storage_path: "{{ env_var('STORAGE_PATH') }}"  # Maps env var to a dbt variable
 
 seeds:
   woodcorps:
     materialized: seed
-    +schema: staging
     raw_Woodcorp_O2C_Case_table:
        +column_types:
           ORDER_VALUE: varchar(52)

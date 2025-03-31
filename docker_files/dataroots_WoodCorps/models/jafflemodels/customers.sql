@@ -1,8 +1,9 @@
 {{ config(
-        materialized='external_table',
-        location="/Users/mustafakurtoglu/unitycatalog/etc/data/external/data_storage/customers",
-        plugin = 'unity')
-    }}
+    materialized='external_table',
+    location=var('storage_path'),
+    plugin='unity'
+) }}
+
 with customers as (
 
     select * from {{ ref('stg_customers') }}
