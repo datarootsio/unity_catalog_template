@@ -1,4 +1,4 @@
-version: '3'
+version: '3' # Consider '3.8' or newer if possible
 
 services:
   dbt:
@@ -6,32 +6,46 @@ services:
     build:
       context: .
       dockerfile: dockerfile.dbt
-      #Change this to your desired path to store the data
     environment:
+      # This host path doesn't make sense inside the container.
       STORAGE_PATH: "/Users/mustafakurtoglu/unitycatalog/etc/data/external/data_storage"
+      # Add UC_ENDPOINT and UC_ADMIN_TOKEN if dbt needs them
+      UC_ENDPOINT: "http://host.docker.internal:8080" # Use service name
+      UC_ADMIN_TOKEN: "" # Will need to be filled manually after getting token
     volumes:
-        #Change this to your desired path to store the data
+      # Map a host path (e.g., ./data) to the container path used by STORAGE_PATH
+      - /Users/mustafakurtoglu/unitycatalog/etc/data/external/data_storage:/data_storage:rw # Map to /data_storage
       - /Users/mustafakurtoglu/unitycatalog/etc/data/external/data_storage:/Users/mustafakurtoglu/unitycatalog/etc/data/external/data_storage
     networks:
       - data-network
+    # Add depends_on if dbt should wait for UC
+    depends_on:
+      - unity-catalog
 
   unity-catalog:
     build:
       context: .
       dockerfile: dockerfile.uc
+    # Rename container for clarity and use in endpoint
+    container_name: unity-catalog
     working_dir: /app/unitycatalog
     ports:
       - "8080:8080"
-    container_name: unity-catalog-container
-   # healthcheck:
-   #   test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
-   #   interval: 10s
-   #   timeout: 5s
-   #   retries: 5
-   #   start_period: 5s
+    volumes:
+      # Mount ONLY the server.properties file from host to container (read-only)
+      - ./uc-conf/server.properties:/app/unitycatalog/etc/conf/server.properties:ro
     networks:
       - data-network
+    # Healthcheck removed for simplicity, can be added back later if needed.
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:8080/health"] # Adjust test command as needed
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 5
+    #   start_period: 30s # Give more time to start
 
 networks:
   data-network:
     driver: bridge
+
+# Removed the duplicate networks definition at the end

@@ -13,8 +13,9 @@ woodcorps:
           repository: http://nightly-extensions.duckdb.org
       secrets:
         - type: UC
-          token: 'not-used'
-          endpoint: 'http://host.docker.internal:8080'
+          token: "{{ env_var('UC_ADMIN_TOKEN') }}"
+          # Read endpoint from environment variable UC_ENDPOINT
+          endpoint: "{{ env_var('UC_ENDPOINT') }}"
           aws_region: 'us-east-2'
       plugins:
         - module: unity
