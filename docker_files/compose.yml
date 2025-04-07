@@ -1,4 +1,4 @@
-version: '3' # Consider '3.8' or newer if possible
+version: '3.8' # Recommended
 
 services:
   dbt:
@@ -6,19 +6,28 @@ services:
     build:
       context: .
       dockerfile: dockerfile.dbt
+    container_name: dbt-runner
     environment:
-      # This host path doesn't make sense inside the container.
-      STORAGE_PATH: "/Users/mustafakurtoglu/unitycatalog/etc/data/external/data_storage"
-      # Add UC_ENDPOINT and UC_ADMIN_TOKEN if dbt needs them
-      UC_ENDPOINT: "http://host.docker.internal:8080" # Use service name
-      UC_ADMIN_TOKEN: "" # Will need to be filled manually after getting token
+      STORAGE_PATH: "abfss://test-for-uc@uccatalogdelta.dfs.core.windows.net/mydatatable"
+      # Pass INTERNAL UC endpoint and ADMIN token from .env
+      # Credentials flow through UC server now for writes
+      UC_ENDPOINT: "${UC_SERVER_INTERNAL_ENDPOINT}"
+      UC_ADMIN_TOKEN: "eyJraWQiOiJjYTgyNDc3ZjkzNzM2MmEyOTdjMTIyZWE3YjRiMzc4Mzg0OTJmMmUwMGUxYWUxMzFiN2ZlYjkzYWQ0NTEzN2E1IiwiYWxnIjoiUlM1MTIiLCJ0eXAiOiJKV1QifQ.eyJzdWIiOiJhZG1pbiIsImlzcyI6ImludGVybmFsIiwiaWF0IjoxNzQzOTYzODg3LCJqdGkiOiIyZTk0Y2JmNi00ZjMzLTQwZDAtOWEzOS1hYjI3MGFiMDRkNTUiLCJ0eXBlIjoiU0VSVklDRSJ9.iFvYr9VUY3t3hJTZPAh_Qq65Kui88l-SAwZXRDXecMhLkpZsO5Z8ERUt1RWcrcFbKL8JUrD3EHHL1QQlvP4Jc7XdkjqDa8KnwK3uY8B0DG5bo9OKHqILbMuy7obBfRCvfp-ad_qEIJKdOeF4ldb13phP4HYYSfJC2lbKImd7Qi3E4XMYv2IArUHt7WQuWhhCnzUFJU-cpOodUPj90B-dYIwak5a2PZSHXKCSubz3-LS0dQ17YnIL7DQ2XI8X5Ug8M5Wj-um2MegjP1KuRpO57Y49Wk8gBiexLd4FOGbMLeZh_VEbkZD9AUA1PU9DAArqxDTyaZP-RDmDAL6YpZeMTA"
+      AZURE_STORAGE_ACCOUNT: "${AZURE_STORAGE_ACCOUNT}"      # For modified plugin -> ADLS
+      AZURE_CLIENT_ID: "${AZURE_STORAGE_CLIENT_ID}"      # For modified plugin -> ADLS
+      AZURE_CLIENT_SECRET: "${AZURE_STORAGE_CLIENT_SECRET}"  # For modified plugin -> ADLS
+      AZURE_TENANT_ID: "${AZURE_STORAGE_TENANT_ID}"      # For modified plugin -> ADLS
+      # AZURE_* vars are NOT needed here for the plugin write path anymore
+    env_file:
+      - .env # Loads vars for substitution in 'environment' block above
     volumes:
-      # Map a host path (e.g., ./data) to the container path used by STORAGE_PATH
-      - /Users/mustafakurtoglu/unitycatalog/etc/data/external/data_storage:/data_storage:rw # Map to /data_storage
-      - /Users/mustafakurtoglu/unitycatalog/etc/data/external/data_storage:/Users/mustafakurtoglu/unitycatalog/etc/data/external/data_storage
+      # Mount your dbt project code relative to compose file location
+      - .:/usr/app/dbt
+      # Remove local storage volume mount if not needed
+      # - /Users/mustafakurtoglu/unitycatalog/etc/data/external/data_storage:/data_storage:rw
     networks:
       - data-network
-    # Add depends_on if dbt should wait for UC
+    working_dir: /usr/app/dbt/dataroots_WoodCorps # Adjust to your dbt project location within the mount
     depends_on:
       - unity-catalog
 
@@ -27,7 +36,7 @@ services:
       context: .
       dockerfile: dockerfile.uc
     # Rename container for clarity and use in endpoint
-    container_name: unity-catalog
+    container_name: unity-catalogz
     working_dir: /app/unitycatalog
     ports:
       - "8080:8080"
@@ -48,4 +57,5 @@ networks:
   data-network:
     driver: bridge
 
-# Removed the duplicate networks definition at the end
+volumes:
+  uc-data: # Define the named volume
