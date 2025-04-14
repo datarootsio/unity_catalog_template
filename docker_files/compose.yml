@@ -8,11 +8,11 @@ services:
       dockerfile: dockerfile.dbt
     container_name: dbt-runner
     environment:
-      STORAGE_PATH: "abfss://test-for-uc@uccatalogdelta.dfs.core.windows.net/mydatatable"
+      STORAGE_PATH: "abfss://datastorage@unitycataloginternship.dfs.core.windows.net/uc_tables"
       # Pass INTERNAL UC endpoint and ADMIN token from .env
       # Credentials flow through UC server now for writes
       UC_ENDPOINT: "${UC_SERVER_INTERNAL_ENDPOINT}"
-      UC_ADMIN_TOKEN: "eyJraWQiOiJjYTgyNDc3ZjkzNzM2MmEyOTdjMTIyZWE3YjRiMzc4Mzg0OTJmMmUwMGUxYWUxMzFiN2ZlYjkzYWQ0NTEzN2E1IiwiYWxnIjoiUlM1MTIiLCJ0eXAiOiJKV1QifQ.eyJzdWIiOiJhZG1pbiIsImlzcyI6ImludGVybmFsIiwiaWF0IjoxNzQzOTYzODg3LCJqdGkiOiIyZTk0Y2JmNi00ZjMzLTQwZDAtOWEzOS1hYjI3MGFiMDRkNTUiLCJ0eXBlIjoiU0VSVklDRSJ9.iFvYr9VUY3t3hJTZPAh_Qq65Kui88l-SAwZXRDXecMhLkpZsO5Z8ERUt1RWcrcFbKL8JUrD3EHHL1QQlvP4Jc7XdkjqDa8KnwK3uY8B0DG5bo9OKHqILbMuy7obBfRCvfp-ad_qEIJKdOeF4ldb13phP4HYYSfJC2lbKImd7Qi3E4XMYv2IArUHt7WQuWhhCnzUFJU-cpOodUPj90B-dYIwak5a2PZSHXKCSubz3-LS0dQ17YnIL7DQ2XI8X5Ug8M5Wj-um2MegjP1KuRpO57Y49Wk8gBiexLd4FOGbMLeZh_VEbkZD9AUA1PU9DAArqxDTyaZP-RDmDAL6YpZeMTA"
+      UC_ADMIN_TOKEN: "eyJraWQiOiJlNGQ3ZjlhYzk5OTMzZGUwMGZlYTI1MzU1MmNjNjdkYzUzOGIxZGNkNTU3NjYyMThhMmRlY2JkZDExOWRjNzZkIiwiYWxnIjoiUlM1MTIiLCJ0eXAiOiJKV1QifQ.eyJzdWIiOiJhZG1pbiIsImlzcyI6ImludGVybmFsIiwiaWF0IjoxNzQ0MDE2Nzc0LCJqdGkiOiI0NjdiNmNlOS1mZmYwLTQzYzctOTg2Yi0zMDg3NzU3NmY5ZDEiLCJ0eXBlIjoiU0VSVklDRSJ9.GbCxv7e5a3Y-ElJ6YinmuG4hjerjBVF2QWqE3Dv-LC_-u4qcbWyh1cVXjQgKFCq4yiHDX7tbhxWppvJ7gRjmSrG0I1EgibhSZbgb8jr-w-obKO_RvcpT9niOPVLJrpqc_AMtM36aPddLcNwU2914kaHeS0fFIEkOi8unhi4x-dX_vs9ne6RChTRNBWiln_MWCYMRBIXRjAw0YcK0eUGlOZfMPJzvGkyUgubQ5PuE5kYBwQJET8p7-s4uyYg7nzSR6mGmPbskOI0ne_trzJro_MM6JsaI7V6mykRKMEe0fyr4mwsx9xJymhfNOHoxTbTcTZ9i6_Glz3qLIG8h4lI0cg"
       AZURE_STORAGE_ACCOUNT: "${AZURE_STORAGE_ACCOUNT}"      # For modified plugin -> ADLS
       AZURE_CLIENT_ID: "${AZURE_STORAGE_CLIENT_ID}"      # For modified plugin -> ADLS
       AZURE_CLIENT_SECRET: "${AZURE_STORAGE_CLIENT_SECRET}"  # For modified plugin -> ADLS

@@ -1,7 +1,7 @@
 # Use Amazon Corretto JDK 17 on Alpine Linux
 FROM amazoncorretto:17-alpine3.20-jdk AS builder
 
-# Set working directory
+# Set working directoryx
 WORKDIR /app
 
 # Install necessary dependencies
