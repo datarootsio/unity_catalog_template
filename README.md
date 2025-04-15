@@ -31,39 +31,41 @@ Integrate DuckDB with Unity Catalog using dbt for automated data transformation 
 
 ---
 
-## **Project Plan**
+## **Project Plan - Current**
 
-### **Step 1: Set-up DuckDB**
-- **Install and configure** DuckDB for data processing.
+### **Step 1: Build Unity-Catalog Container**
+- The idea behind this setup is having a quick DB/DWH with data governance. Normally, DuckDB provides a fast and easy-to-build DWH but it does not have any data governance. Now, thanks to Unity Catalog, it is possible to create users and give users permission to certain tables, schemas, etc. Query users can log in through Unity Catalog (which will prompt them to Google authentication). After they authenticate, the user will get their token. When these users connect to Unity Catalog through DuckDB with their token, they will only be able to see the tables they have permission to.
+- Unity Catalog stores metadata of the tables in place and this metadata addresses the location of each table. If there is a table in that location, that table can be queried through the data governance layer of Unity Catalog. It is crucial to have unity catalog running on container due to its implementation and reachability
 
-### **Step 2: Set-up dbt Core**
-- **Connect dbt Core** to DuckDB as an adapter for data transformation.
+### **Step 2: Build dbt Container*
+- Unity Catalog is limited in terms of writing operations. So to write the data to unity catalog additional layer is needed. dbt provides this with  duckdb-dbt module. By using this it module it is possible to write metadata of tables to Unity Catalog while at the same time writing tables in Delta format to a specific location. This is crucial because Unity Catalog needs metadata and physical location info of tables to allow querying.
+- It is only logical to have dbt running on its container as well. As we want dbt to write metadata to Unity Catalog, dbt needs the endpoint of Unity Catalog. With a Docker setup, when they are in the same network, dbt can easily reach Unity Catalog's endpoint. dbt also gets access to write to Azure Blob Storage through provided credentials during compose up(optional—if a local folder is chosen as the storage location, dbt doesn't need credentials to write to Azure).
 
-### **Step 3: Unity Catalog Integration**
-- **Use DuckDB’s Unity Catalog Extension**  
-  *(Note: Currently does not support writing directly to Unity Catalog)*.
+### **Step 3: Query with DuckDB (UI or CLI)**
+- Unity Catalog is only a catalog—so even if you have all the tables you want in it with proper permissions, you still need a convenient way to query them. That's where DuckDB comes in. You attach Unity Catalog (with the user token) to DuckDB, and then you can query the tables easily using DuckDB's interface.
+#
 
----
+### Docker Plan
 
-## **Workaround for Writing to Unity Catalog**
+![Project Plan - Azure](/images/dockersetup.png)
 
-Since **direct writing** isn't supported yet, follow these steps:
 
-1. **Create metadata** for the table in Unity Catalog.
-2. **Write data** to the corresponding folder in the storage location.
-
-### **Options for Writing**:
-- **SparkSQL**
-- **PySpark**
-- **CLI**
-- **UnityCatalog Python library**  
-  *(Currently unreliable, as it doesn’t create the necessary folder, making it unreadable by DuckDB)*.
 
 ---
+
+
+
+
+## **Project Plan (Azure) - WIP**
+
+### Azure Environment Plan
+
+![Project Plan - Azure](/images/azuresetup.png)
 
 ## **Final Outcome**
 - **Automated data transformation** and writing to Unity Catalog using **DuckDB** and **dbt**.
 - Ability to **query tables** with DuckDB while ensuring **user permissions** via Unity Catalog.
 - **User Interface (UI)** for catalog management, lineage, and user management.
 - **Dockerized environment** for easy setup.
-- 
+- **IAS for initial setup** implementation will be easy with whole infrastructure pre-coded
+

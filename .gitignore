@@ -1,0 +1,24 @@
+# Root .env file
+.env
+
+# .env file in docker_files folder
+docker_files/.env
+
+# macOS system file
+.DS_Store
+
+# JetBrains IDE (e.g., IntelliJ, PyCharm, WebStorm)
+.idea/
+
+# Python cache (if any Python used)
+__pycache__/
+*.py[cod]
+
+# Node.js (if used)
+node_modules/
+
+# Logs
+*.log
+
+# Docker
+*.pid
