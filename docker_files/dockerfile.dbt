@@ -28,7 +28,7 @@ COPY . .
 
 
 # Set workdir to the project subfolder that contains dbt_project.yml
-WORKDIR /usr/app/dbt/dataroots_WoodCorps
+WORKDIR /usr/app/dbt/dbt-project
 
 
 # Set entrypoint
