@@ -25,7 +25,7 @@ def ptable(result):
 
 def get_admin_token():
     try:
-        with open("etc/conf/token.txt") as token_file:
+        with open("/uc-config/conf/token.txt") as token_file:
             return token_file.read().strip()
     except FileNotFoundError:
         print("Token file not found!")
