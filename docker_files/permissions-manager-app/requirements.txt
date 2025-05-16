@@ -1,9 +1,0 @@
-fastapi
-uvicorn[standard]
-streamlit
-requests
-# Ensure this matches the exact package name for the OSS UC client
-unitycatalog-client
-prettytable
-python-dotenv
-# azure-identity # Keep if you might switch to Key Vault later
