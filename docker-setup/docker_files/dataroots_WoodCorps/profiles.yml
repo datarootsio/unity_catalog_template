@@ -1,0 +1,25 @@
+woodcorps:
+  outputs:
+    dev:
+      type: duckdb
+      catalog: unity
+      attach:
+        - path: unity
+          alias: unity
+          type: UC_CATALOG
+      extensions:
+        - name: delta
+        - name: uc_catalog
+          repository: http://nightly-extensions.duckdb.org
+      secrets:
+        - type: UC
+          token: "{{ env_var('UC_ADMIN_TOKEN') }}"
+          # Read endpoint from environment variable UC_ENDPOINT
+          endpoint: "{{ env_var('UC_ENDPOINT') }}"
+      plugins:
+        - module: unity
+  target: dev
+  
+  
+  
+  

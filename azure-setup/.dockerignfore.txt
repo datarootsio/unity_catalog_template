@@ -1,0 +1,15 @@
+# .dockerignore
+**/__pycache__
+**/*.pyc
+**/*.pyo
+**/*.pyd
+.git
+.venv
+venv/
+*.env
+.vscode/
+uc-conf/ # Don't copy UC config into dbt image
+dockerfile.*
+docker-compose.yml
+README.md
+# Add any other files/folders to exclude

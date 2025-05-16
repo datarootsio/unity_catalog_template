@@ -1,0 +1,11 @@
+azure-functions
+azure-identity
+azure-mgmt-resource       # Deployments, Get UAMI ID (can use Resources SDK)
+azure-mgmt-storage        # Get Keys, Create Share
+azure-mgmt-containerregistry # Get ACR Credentials
+azure-mgmt-containerinstance # Get ACI FQDN, Exec Command
+azure-storage-file-share # Upload files (using MI)
+azure-storage-blob      # Upload files (using MI)
+azure-storage-queue     # Upload files (using MI)
+azure-storage-queue  # Upload files (using MI)
+azure-keyvault-secrets

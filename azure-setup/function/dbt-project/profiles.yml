@@ -1,0 +1,41 @@
+woodcorps:
+  outputs:
+    dev:
+      type: duckdb
+      catalog: dev
+      attach:
+        - path: dev
+          alias: dev
+          type: UC_CATALOG
+      extensions:
+        - name: delta
+        - name: uc_catalog
+          repository: http://nightly-extensions.duckdb.org
+      secrets:
+        - type: UC
+          token: "{{ env_var('UC_ADMIN_TOKEN') }}"
+          # Read endpoint from environment variable UC_ENDPOINT
+          endpoint: "{{ env_var('UC_ENDPOINT') }}"
+      plugins:
+        - module: unity
+    prod:
+      type: duckdb
+      catalog: prod
+      attach:
+        - path: prod
+          alias: prod
+          type: UC_CATALOG
+      extensions:
+        - name: delta
+        - name: uc_catalog
+          repository: http://nightly-extensions.duckdb.org
+      secrets:
+        - type: UC
+          token: "{{ env_var('UC_ADMIN_TOKEN') }}"
+          # Read endpoint from environment variable UC_ENDPOINT
+          endpoint: "{{ env_var('UC_ENDPOINT') }}"
+      plugins:
+        - module: unity
+  target: dev
+  
+  
