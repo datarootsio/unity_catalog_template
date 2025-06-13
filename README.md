@@ -1,5 +1,8 @@
 # **DuckDB + Unity Catalog Integration with dbt**
 
+## **Presentation**
+https://docs.google.com/presentation/d/1h0AYz4fWH1Q21IdF0OA5vLD0XqJjHwzHrkOzETmVL70/edit?slide=id.g2a663579a0a_0_22#slide=id.g2a663579a0a_0_22
+
 ## **Goal**
 
 Integrate DuckDB with Unity Catalog using dbt for automated data transformation and writing.
