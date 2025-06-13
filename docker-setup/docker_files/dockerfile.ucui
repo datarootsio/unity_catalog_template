@@ -1,0 +1,32 @@
+# Use an official Node.js runtime as a parent image
+FROM node:18-alpine
+
+# Install bash and jq
+RUN apk update && apk add --no-cache bash jq
+
+ARG UC_HOST="http://unitycatalog:8080" # This is still problematic for K8s runtime, see below
+
+# Set the working directory
+WORKDIR /app
+
+RUN wget https://github.com/unitycatalog/unitycatalog-ui/archive/refs/heads/main.zip \
+    && unzip main.zip \
+    && mv unitycatalog-ui-main unitycatalog-ui \
+    && rm main.zip
+
+WORKDIR /app/unitycatalog-ui
+
+# Modify package.json to include the UC_HOST
+# This sed command will use the BUILD-TIME ARG.
+# The Kubernetes command override tries to do this again at RUNTIME.
+RUN sed -i "s|\"proxy\": \".*\"|\"proxy\": \"$UC_HOST\"|" package.json
+
+# Install dependencies
+RUN yarn
+
+# Expose the port the app runs on
+EXPOSE 3000
+
+# Define the command to run the app
+# This CMD will be OVERRIDDEN by the Kubernetes Deployment spec's command.
+CMD ["yarn", "start"]
