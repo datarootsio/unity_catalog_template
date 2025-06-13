@@ -1,4 +1,4 @@
-version: '3.8' # Recommended
+version: '3'
 
 services:
   dbt:
@@ -6,51 +6,49 @@ services:
     build:
       context: .
       dockerfile: dockerfile.dbt
-    container_name: dbt-runner
     environment:
-      STORAGE_PATH: "/Users/mustafakurtoglu/Downloads/dataroots_setup_docker/unity_catalog_template_copy/docker_files/tables_destination"
+        #Change this to your desired path to store the data
+      STORAGE_PATH: "/Users/mustafakurtoglu/github_mustafa/unity_catalog_template/docker-setup/docker_files/data"
       # Pass INTERNAL UC endpoint and ADMIN token from .env
-      # Credentials flow through UC server now for writes
-      UC_ENDPOINT: "http://unity-catalogz:8080"
-      UC_ADMIN_TOKEN: ""
+      # Credentials flow through UC server now for writes. If you were to turn on auth, you should replace the token with the admin token.
+      UC_ENDPOINT: "http://host.docker.internal:8080"
+      UC_ADMIN_TOKEN: "not-used"
     env_file:
-      - .env # Loads vars for substitution in 'environment' block above
+      - .env # Loads vars for substitution in 'environment' block above. Token and secrets can be passed through this
     volumes:
-      # Mount your dbt project code relative to compose file location
-      - .:/usr/app/dbt
-      # Remove local storage volume mount if not needed
-      # - /Users/mustafakurtoglu/unitycatalog/etc/data/external/data_storage:/data_storage:rw
+        #Change this to your desired path to store the data --> both side of :
+        #Note: This part is not needed if you are using Azure as storage
+      - /Users/mustafakurtoglu/github_mustafa/unity_catalog_template/docker-setup/docker_files/data:/Users/mustafakurtoglu/github_mustafa/unity_catalog_template/docker-setup/docker_files/data
+    container_name: dbt-container
     networks:
       - data-network
-    working_dir: /usr/app/dbt/dataroots_WoodCorps # Adjust to your dbt project location within the mount
-    depends_on:
-      - unity-catalog
-
+      
+      
   unity-catalog:
     build:
       context: .
       dockerfile: dockerfile.uc
-    # Rename container for clarity and use in endpoint
-    container_name: unity-catalogz
     working_dir: /app/unitycatalog
     ports:
       - "8080:8080"
-    volumes:
-      # Mount ONLY the server.properties file from host to container (read-only)
-      - ./uc-conf/server.properties:/app/unitycatalog/etc/conf/server.properties:ro
+    container_name: unity-catalog-container
     networks:
       - data-network
-    # Healthcheck removed for simplicity, can be added back later if needed.
-    # healthcheck:
-    #   test: ["CMD", "curl", "-f", "http://localhost:8080/health"] # Adjust test command as needed
-    #   interval: 10s
-    #   timeout: 5s
-    #   retries: 5
-    #   start_period: 30s # Give more time to start
+      
+  unity-catalog-ui:
+    build:
+      context: .
+      dockerfile: dockerfile.ucui
+      args:
+        UC_HOST: "http://unity-catalog-container:8080"
+    ports:
+      - "3000:3000" # Host:Container for accessing the UI
+    container_name: unity-catalog-ui-container
+    networks:
+      - data-network
+    depends_on: 
+      - unity-catalog
 
 networks:
   data-network:
     driver: bridge
-
-volumes:
-  uc-data: # Define the named volume

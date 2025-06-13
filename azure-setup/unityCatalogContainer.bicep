@@ -1,4 +1,3 @@
-// === uc-aci-multicontainer-acrpw-FIXED.bicep === // Indicate fix
 targetScope = 'resourceGroup'
 
 // === Parameters ===
@@ -77,8 +76,6 @@ resource containerGroup 'Microsoft.ContainerInstance/containerGroups@2023-05-01'
           ]
           resources: { requests: { cpu: pmCpuCores, memoryInGB: pmMemoryInGB } }
           environmentVariables: [
-            // <<< Path uc_service.py reads MUST point to where the token is on the mounted volume >>>
-            // pmMountPath (/uc-config) + relative path on share (conf/token.txt)
             { name: 'UC_TOKEN_PATH', value: '${pmMountPath}/${tokenRelativePathOnShare}' } // Should resolve to /uc-config/conf/token.txt
             { name: 'UC_API_ENDPOINT', value: 'http://localhost:${ucPort}/api/2.1/unity-catalog' }
           ]

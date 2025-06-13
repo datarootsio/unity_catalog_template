@@ -67,7 +67,3 @@ EXPOSE 8080
 
 # Start Unity Catalog server
 CMD ["bin/start-uc-server"]
-#i want to run these comands after the start
-#CMD ["cat etc/conf/token.txt"]
-#CMD ["bin/uc --auth_token $(cat etc/conf/token.txt) permission create  --securable_type catalog --name unity --privilege 'USE CATALOG' --principal admin"]
-#CMD ["bin/uc --auth_token $(cat etc/conf/token.txt) permission create  --securable_type catalog --name unity --privilege 'CREATE SCHEMA' --principal admin"]

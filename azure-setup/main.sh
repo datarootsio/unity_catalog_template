@@ -3,9 +3,9 @@ set -e # Exit immediately if a command exits with a non-zero status.
 
 # --- Configuration ---
 echo "--- Configuration ---"
-RESOURCE_GROUP="DC_internship_2025"
-LOCATION="westeurope"
-PROJECT_NAME="unitycatalogproject" #All the resource group names will be derived from this project name
+RESOURCE_GROUP="Input_Your_Resource_Group_Name"
+LOCATION="Insert_Location"
+PROJECT_NAME="Input_Your_Project_Name" #All the resource group names will be derived from this project name
 
 
 

@@ -56,7 +56,7 @@ Integrate DuckDB with Unity Catalog using dbt for automated data transformation 
 
 
 
-## **Project Plan (Azure) - WIP**
+## **Project Plan (Azure)**
 
 ### Azure Environment Plan
 
@@ -66,6 +66,6 @@ Integrate DuckDB with Unity Catalog using dbt for automated data transformation 
 - **Automated data transformation** and writing to Unity Catalog using **DuckDB** and **dbt**.
 - Ability to **query tables** with DuckDB while ensuring **user permissions** via Unity Catalog.
 - **User Interface (UI)** for catalog management, lineage, and user management.
-- **Dockerized environment** for easy setup.
-- **IAS for initial setup** implementation will be easy with whole infrastructure pre-coded
+- **Containerized Environment** for easy setup.
+- **IAC for initial setup** implementation will be easy with whole infrastructure pre-coded
 
