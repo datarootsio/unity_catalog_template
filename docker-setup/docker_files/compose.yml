@@ -32,6 +32,10 @@ services:
     ports:
       - "8080:8080"
     container_name: unity-catalog-container
+    volumes:
+      # Mount your host 'uc-conf' directory to the container's configuration directory
+      - ./uc-config:/app/unitycatalog/etc/conf
+      - ./metadata:/app/unitycatalog/etc/db
     networks:
       - data-network
       

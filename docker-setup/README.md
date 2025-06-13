@@ -29,7 +29,7 @@ Clone this repository to a desired folder
 You have to adjust the 'STORAGE_PATH' parameter inside the compose.yml to your liking. 
 
 Note: Critical thing with storage path is in order for the setup to work, you have to write the path to these three locations:
-![Project Plan - Azure](/images/storage_paths.png)
+![Storage path - Docker](/images/storage_paths.png)
 
 If you were to use Azure(With current setup only Azure is supported), fill 'STORAGE_PATH' parameter as:
 
@@ -53,8 +53,16 @@ Develop your project and  put it on the folder: 'dbt-project' (do not change the
 
 In the dbt project make sure profiles.yml stayed as is. And you filled the catalog name and schema name in the dbt_project.yml.
 
+**4. Auth(Optional) :**
 
-**4. Compose up :**
+Please follow the official authentication guide here:
+https://docs.unitycatalog.io/server/auth/
+
+This guide will explain how to configure third-party authentication providers.
+Once you have your third-party authentication credentials and configuration details, add them to the server.properties file located in the uc-conf directory in our project.
+This will allow the Unity Catalog server to use your chosen authentication method.
+
+**5. Compose up :**
 
 Run docker-compose up in terminal it should automatically get both dbt container and unity catalog container up and running. 
 
@@ -88,4 +96,5 @@ ATTACH 'unity' AS unity (TYPE UC_CATALOG);
 You will see catalog with all schemas and tables on the left side. And now you can use query it as you wish
 
 
+![Querying - DuckDB ui](/images/duckdb-query.png)
 

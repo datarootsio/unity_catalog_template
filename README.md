@@ -34,7 +34,7 @@ Integrate DuckDB with Unity Catalog using dbt for automated data transformation 
 
 ---
 
-## **Project Plan - Current**
+## **Project Plan - Docker**
 
 ### **Step 1: Build Unity-Catalog Container**
 - The idea behind this setup is having a quick DB/DWH with data governance. Normally, DuckDB provides a fast and easy-to-build DWH but it does not have any data governance. Now, thanks to Unity Catalog, it is possible to create users and give users permission to certain tables, schemas, etc. Query users can log in through Unity Catalog (which will prompt them to Google authentication). After they authenticate, the user will get their token. When these users connect to Unity Catalog through DuckDB with their token, they will only be able to see the tables they have permission to.
@@ -50,7 +50,7 @@ Integrate DuckDB with Unity Catalog using dbt for automated data transformation 
 
 ### Docker Plan
 
-![Project Plan - Azure](/images/dockersetup.png)
+![Project Plan - Docker](/images/dockersetup.png)
 
 
 
